@@ -8,5 +8,6 @@
 #import <Cordova/CDV.h>
 
 @interface PasswordDialogPlugin : CDVPlugin
+- (void)showConfirmPassword:(CDVInvokedUrlCommand *)command;
 - (void)showChangePassword:(CDVInvokedUrlCommand *)command;
 @end

@@ -1,6 +1,21 @@
 /// <reference path="cordova-plugin-password-dialog.d.ts" />
 
-var emptyOptions: PasswordDialogPlugin.ChangePasswordOptions = {};
+var emptyConfirmOptions: PasswordDialogPlugin.ConfirmPasswordOptions = {};
+
+var options: PasswordDialogPlugin.ConfirmPasswordOptions = {
+    title: "title",
+    message: "message",
+    minLength: 8
+};
+
+PasswordDialogPlugin.showConfirmPassword(null);
+PasswordDialogPlugin.showConfirmPassword(options);
+PasswordDialogPlugin.showConfirmPassword(options, () => {});
+PasswordDialogPlugin.showConfirmPassword(options, () => {}, (error: string) => {});
+PasswordDialogPlugin.showConfirmPassword(options, (result: PasswordDialogPlugin.ConfirmPasswordResult) => {}, (error: string) => {});
+
+
+var emptyChangeOptions: PasswordDialogPlugin.ChangePasswordOptions = {};
 
 var options: PasswordDialogPlugin.ChangePasswordOptions = {
     title: "title",

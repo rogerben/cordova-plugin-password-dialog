@@ -17,6 +17,44 @@ var PasswordDialogPlugin = {};
  * The user must enter their current password as well as their new password twice.
  * 
  * The options available are:
+ *  • [string] title - The title for the dialog (optional, defaults to "Confirm Password").
+ *  • [string] message - The message for the dialog (optional, defaults to empty string).
+ *  • [number] minLength - The minimum length for the password (optional, defaults to not enforcing a minimum length).
+ * 
+ * Upon completion, the success callback will be invoked with the following object:
+ * 
+ *  { cancel: false, passsword = "password" }
+ * 
+ * @param [object] options - The options for the dialog.
+ * @param [function] successCallback - The success callback for this asynchronous function; receives a result object.
+ * @param [function] failureCallback - The failure callback for this asynchronous function; receives an error string.
+ */
+PasswordDialogPlugin.showConfirmPassword = function showConfirmPassword(options, successCallback, failureCallback) {
+
+    if (typeof(options) !== "object") {
+        options = {};
+    }
+
+    if (typeof(options.title) !== "string") {
+        options.title = "Confirm Password";
+    }
+
+    if (typeof(options.message) !== "string") {
+        options.message = "";
+    }
+
+    if (typeof(options.minLength) !== "number") {
+        options.minLength = -1;
+    }
+
+    exec(successCallback, failureCallback, PLUGIN_ID, "showConfirmPassword", [options.title, options.message, options.minLength]);
+};
+
+/**
+ * Used to show a dialog that prompts the user to change their password.
+ * The user must enter their current password as well as their new password twice.
+ * 
+ * The options available are:
  *  • [string] title - The title for the dialog (optional, defaults to "Change Password").
  *  • [string] message - The message for the dialog (optional, defaults to empty string).
  *  • [number] minLength - The minimum length for the new password (optional, defaults to not enforcing a minimum length).

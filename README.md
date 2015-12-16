@@ -2,7 +2,9 @@
 
 This is a [Cordova](http://cordova.apache.org/) plugin for showing password prompt dialogs.
 
-Currently this has a single dialog: change password. It allows the user to enter their current, new, and confirmation passwords.
+There are currently two dialogs available:
+* Confirm Password
+* Change Password
 
 # Install
 
@@ -21,6 +23,41 @@ The plugin is available via a global variable named `PasswordDialogPlugin`. It e
 All functions accept optional success and failure callbacks as their final two arguments, where the failure callback will receive an error string as an argument unless otherwise noted.
 
 A TypeScript definition file for the JavaScript interface is available in the `typings` directory as well as on [DefinitelyTyped](https://github.com/borisyankov/DefinitelyTyped) via the `tsd` tool.
+
+## Confirm Password Dialog
+
+Used to show a dialog that prompts the user to confirm their password. The user must enter their their password twice.
+
+Method Signature:
+
+`showConfirmPassword(options, successCallback, failureCallback)`
+
+Options Parameter:
+
+* title (string): The title for the dialog (optional, defaults to "Confirm Password").
+* message (string): The message for the dialog (optional, defaults to empty string).
+* minLength (number): The minimum length for the new password (optional, defaults to not enforcing a minimum length).
+
+Example Usage:
+
+    var options = {
+        title: "Confirm Password",
+        message: "Please confirm your password.",
+        minLength: 8
+    };
+
+    PasswordDialogPlugin.showConfirmPassword(options,
+        function(result) {
+            if (result.cancel) {
+                console.log("User cancelled the confirm password dialog.");
+            }
+            else {
+                console.log("User completed the confirm password dialog.", result.password);
+            }
+        },
+        function(err) {
+            console.log("Confirm password dialog error.", err);
+        });
 
 ## Change Password Dialog
 

@@ -10,6 +10,37 @@
 
 #pragma mark - Cordova Commands
 
+- (void)showConfirmPassword:(CDVInvokedUrlCommand *)command {
+    
+    // Ensure we have the correct number of arguments.
+    if ([command.arguments count] != 3) {
+        CDVPluginResult *res = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"A title, message, and minLength are required."];
+        [self.commandDelegate sendPluginResult:res callbackId:command.callbackId];
+        return;
+    }
+    
+    // Obtain the arguments.
+    NSString* title = [command.arguments objectAtIndex:0];
+    NSString* message = [command.arguments objectAtIndex:1];
+    int minLength = [command.arguments objectAtIndex:2] ?
+    [[command.arguments objectAtIndex:2] intValue] : -1;
+    
+    // Validate and/or default the arguments.
+    
+    if (title == nil) {
+        title = @"Confirm Password";
+    }
+    
+    if (message == nil) {
+        message = @"";
+    }
+    
+    [self showConfirmPasswordPromptWithTitle:title
+                                  andMessage:message
+                                andMinLength:minLength
+                               forCallbackId:command.callbackId];
+}
+
 - (void)showChangePassword:(CDVInvokedUrlCommand *)command {
 
     // Ensure we have the correct number of arguments.
@@ -41,7 +72,7 @@
                               forCallbackId:command.callbackId];
 }
 
-#pragma mark - Helper Methods
+#pragma mark - Shared Helper Methods
 
 /**
  * Helper used to ensure the given alert controller is presented on the active view controller.
@@ -69,6 +100,163 @@
         [self.viewController presentViewController:alert animated:YES completion:nil];
     }
 }
+
+#pragma mark - Confirm Password Helper Methods
+
+/**
+ * Helper used to show a simple validation message.
+ */
+- (void)showConfirmPasswordValidationMessage:(NSString*) message
+                                   withTitle:(NSString*) title
+                                andMinLength:(int) minLength
+                               forCallbackId:(NSString*) callbackId
+                            andOriginalTitle:(NSString*) originalTitle
+                          andOriginalMessage:(NSString*) originalMessage
+    {
+
+    // Build the alert view.
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    // Build the action handler.
+    UIAlertAction* alertOkAction = [UIAlertAction actionWithTitle:@"OK"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action)
+    {
+        // After the validation message is closed, show the confirm password prompt again.
+        [self showConfirmPasswordPromptWithTitle:originalTitle
+                                      andMessage:originalMessage
+                                    andMinLength:minLength
+                                   forCallbackId:callbackId];
+    }];
+
+    [alert addAction:alertOkAction];
+
+    // Show the validation message dialog.
+    [self presentAlertOnCurrentViewController:alert];
+}
+
+/**
+ * Helper used to show the confirm password prompt dialog.
+ */
+- (void)showConfirmPasswordPromptWithTitle:(NSString*) title
+                                andMessage:(NSString*) message
+                              andMinLength:(int) minLength
+                             forCallbackId:(NSString*) callbackId {
+
+    // Build the alert view.
+
+    UIAlertController *prompt = [UIAlertController alertControllerWithTitle:title
+                                                                    message:message
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+
+    // Build the action handlers.
+
+    // The action for the user OK-ing the confirm password dialog.
+    UIAlertAction* promptOkAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action)
+    {
+        // Grab the passwords that were entered.
+        NSString *password = prompt.textFields[0].text;
+        NSString *confirmPassword = prompt.textFields[1].text;
+
+        // Ensure the user entered a password.
+        if (!password || [password isEqualToString:@""]) {
+
+            [self showConfirmPasswordValidationMessage:@"You must enter a password."
+                                             withTitle:@"Password"
+                                          andMinLength:minLength
+                                         forCallbackId:callbackId
+                                      andOriginalTitle:title
+                                    andOriginalMessage:message];
+            return;
+        }
+
+        // Ensure the user entered a confirm password.
+        if (!confirmPassword || [confirmPassword isEqualToString:@""]) {
+
+            [self showConfirmPasswordValidationMessage:@"You must enter a value for the confirm password."
+                                             withTitle:@"Confirm Password"
+                                          andMinLength:minLength
+                                         forCallbackId:callbackId
+                                      andOriginalTitle:title
+                                    andOriginalMessage:message];
+            return;
+        }
+
+        if (minLength != -1 && password.length < minLength) {
+
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"The password needs to be at least %d characters long.", minLength];
+
+            [self showConfirmPasswordValidationMessage:validationMessage
+                                             withTitle:@"Confirm Password"
+                                          andMinLength:minLength
+                                         forCallbackId:callbackId
+                                      andOriginalTitle:title
+                                    andOriginalMessage:message];
+            return;
+        }
+
+        // Ensure the passwords match.
+        if (![password isEqualToString:confirmPassword]) {
+
+            [self showConfirmPasswordValidationMessage:@"The passwords do not match, please try again."
+                                            withTitle:@"Confirm Password"
+                                         andMinLength:minLength
+                                        forCallbackId:callbackId
+                                     andOriginalTitle:title
+                                   andOriginalMessage:message];
+            return;
+        }
+
+        // If we passed validation, return the passwords.
+
+        NSDictionary *dictionary = @{ @"cancel": @NO,
+                                      @"password": password };
+
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                      messageAsDictionary:dictionary];
+
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    }];
+
+    // The action for the user cancelling the confirm password dialog.
+    UIAlertAction* promptCancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action)
+    {
+        // If the user decides to cancel, send back a result with cancel flag set to true.
+
+        NSDictionary *dictionary = @{ @"cancel": @YES };
+
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                      messageAsDictionary:dictionary];
+
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    }];
+
+    [prompt addAction:promptOkAction];
+    [prompt addAction:promptCancelAction];
+
+    // Build the input fields.
+
+    [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Password";
+        textField.secureTextEntry = YES;
+    }];
+
+    [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Confirm Password";
+        textField.secureTextEntry = YES;
+    }];
+
+    // Show the prompt dialog.
+    [self presentAlertOnCurrentViewController:prompt];
+}
+
+#pragma mark - Change Password Helper Methods
 
 /**
  * Helper used to show a simple validation message.
@@ -156,9 +344,9 @@
 
         if (minLength != -1 && newPassword.length < minLength) {
 
-            NSString* message = [[NSString alloc] initWithFormat:@"The new password needs to be at least %d characters long", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"The new password needs to be at least %d characters long.", minLength];
 
-            [self showChangePasswordValidationMessage:message
+            [self showChangePasswordValidationMessage:validationMessage
                                             withTitle:@"New Password"
                                          andMinLength:minLength
                                         forCallbackId:callbackId
