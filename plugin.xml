@@ -45,6 +45,20 @@
         <header-file src="src/ios/PasswordDialogPlugin.h" />
         <source-file src="src/ios/PasswordDialogPlugin.m" />
 
+        <header-file src="lib/ios/ABPadButton.h" />
+        <source-file src="lib/ios/ABPadButton.m" />
+        <header-file src="lib/ios/ABPadLockScreen.h" />
+        <header-file src="lib/ios/ABPadLockScreenAbstractViewController.h" />
+        <source-file src="lib/ios/ABPadLockScreenAbstractViewController.m" />
+        <header-file src="lib/ios/ABPadLockScreenSetupViewController.h" />
+        <source-file src="lib/ios/ABPadLockScreenSetupViewController.m" />
+        <header-file src="lib/ios/ABPadLockScreenView.h" />
+        <source-file src="lib/ios/ABPadLockScreenView.m" />
+        <header-file src="lib/ios/ABPadLockScreenViewController.h" />
+        <source-file src="lib/ios/ABPadLockScreenViewController.m" />
+        <header-file src="lib/ios/ABPinSelectionView.h" />
+        <source-file src="lib/ios/ABPinSelectionView.m" />
+
     </platform>
 
 </plugin>
