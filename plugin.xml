@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-password-dialog"
-        version="1.1.0">
+        version="1.2.0">
 
     <name>Cordova Password Dialog Plugin</name>
 
@@ -26,6 +26,8 @@
             </feature>
         </config-file>
 
+        <source-file src="src/android/enter_password_dialog.xml" target-dir="res/layout"/>
+        <source-file src="src/android/credentials_dialog.xml" target-dir="res/layout"/>
         <source-file src="src/android/confirm_password_dialog.xml" target-dir="res/layout"/>
         <source-file src="src/android/change_password_dialog.xml" target-dir="res/layout"/>
         <source-file src="src/android/PasswordDialogPlugin.java" target-dir="src/net/justin_credible/cordova" />
