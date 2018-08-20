@@ -382,7 +382,7 @@ public final class PasswordDialogPlugin extends CordovaPlugin {
 
         if (minLength != -1 && password.length() < minLength) {
             etPassword.setText("");
-            String message = String.format("The password needs to be at least %d characters long.", minLength);
+            String message = String.format("Minimum %d characters long / 最少 %d 个字符", minLength);
             etPassword.setError(message);
             etPassword.requestFocus();
             return;
