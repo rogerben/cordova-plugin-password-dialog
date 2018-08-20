@@ -270,7 +270,7 @@
 
         if (minLength != -1 && password.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"The password needs to be at least %d characters long.", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
 
             [self showEnterUserNameAndPasswordValidationMessage:validationMessage
                                                       withTitle:@"Password"
@@ -406,7 +406,7 @@
 
         if (minLength != -1 && password.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"The password needs to be at least %d characters long.", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
 
             [self showEnterPasswordValidationMessage:validationMessage
                                            withTitle:@"Enter Password"
@@ -544,7 +544,7 @@
 
         if (minLength != -1 && password.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"The password needs to be at least %d characters long.", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
 
             [self showConfirmPasswordValidationMessage:validationMessage
                                              withTitle:@"Confirm Password"
@@ -700,7 +700,7 @@
 
         if (minLength != -1 && newPassword.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"The new password needs to be at least %d characters long.", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
 
             [self showChangePasswordValidationMessage:validationMessage
                                             withTitle:@"New Password"
