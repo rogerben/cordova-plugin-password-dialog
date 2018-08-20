@@ -324,7 +324,7 @@
     }];
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Password";
+        textField.placeholder = @"";
         textField.secureTextEntry = YES;
     }];
 
@@ -449,7 +449,7 @@
     // Build the input fields.
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Password";
+        textField.placeholder = @"";
         textField.secureTextEntry = YES;
     }];
 
@@ -599,12 +599,12 @@
     // Build the input fields.
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Password";
+        textField.placeholder = @"";
         textField.secureTextEntry = YES;
     }];
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Confirm Password";
+        textField.placeholder = @"";
         textField.secureTextEntry = YES;
     }];
 
@@ -714,7 +714,7 @@
         // Ensure the new passwords match.
         if (![newPassword isEqualToString:confirmNewPassword]) {
 
-            [self showChangePasswordValidationMessage:@"The new passwords do not match, please try again."
+            [self showChangePasswordValidationMessage:@"The new passwords do not match / 新密码不匹配"
                                             withTitle:@"New Password"
                                         forCallbackId:callbackId
                                      andOriginalTitle:title
@@ -756,17 +756,17 @@
     // Build the input fields.
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Current Password";
+        textField.placeholder = @"Current Secure Password / 当前安全锁密码";
         textField.secureTextEntry = YES;
     }];
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"New Password";
+        textField.placeholder = @"New Secure Password / 新安全锁密码";
         textField.secureTextEntry = YES;
     }];
 
     [prompt addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Confirm New Password";
+        textField.placeholder = @"Confirm New Secure Password / 确认安全锁密码";
         textField.secureTextEntry = YES;
     }];
 
