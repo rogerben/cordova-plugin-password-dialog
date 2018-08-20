@@ -270,7 +270,7 @@
 
         if (minLength != -1 && password.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength, minLength];
 
             [self showEnterUserNameAndPasswordValidationMessage:validationMessage
                                                       withTitle:@"Password"
@@ -406,7 +406,7 @@
 
         if (minLength != -1 && password.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength, minLength];
 
             [self showEnterPasswordValidationMessage:validationMessage
                                            withTitle:@"Enter Password"
@@ -544,7 +544,7 @@
 
         if (minLength != -1 && password.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength, minLength];
 
             [self showConfirmPasswordValidationMessage:validationMessage
                                              withTitle:@"Confirm Password"
@@ -700,7 +700,7 @@
 
         if (minLength != -1 && newPassword.length < minLength) {
 
-            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength];
+            NSString* validationMessage = [[NSString alloc] initWithFormat:@"Minimum %d characters long / 最少 %d 个字符", minLength, minLength];
 
             [self showChangePasswordValidationMessage:validationMessage
                                             withTitle:@"New Password"
